@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node* nodep;
+typedef struct Node node;
+
+struct Node         
+    {
+        int data;       
+        struct Node *next;      
+    };
+    
+int main()
+    {
+       
+        nodep newnode1 = (nodep) malloc(sizeof(node)); 
+        nodep newnode2 = (nodep) malloc(sizeof(node));
+        nodep newnode3 = (nodep) malloc(sizeof(node));  
+        nodep newnode4 = (nodep) malloc(sizeof(node)); 
+        nodep newnode5 = (nodep) malloc(sizeof(node)); 
+        nodep tempnode = (nodep) malloc(sizeof(node));
+        nodep head = (nodep) malloc(sizeof(node)); 
+        nodep tmp = (nodep) malloc(sizeof(node)); 
+        
+        newnode1->data=34;                
+        newnode2->data=56;
+        newnode3->data=89;
+        newnode4->data=90;
+        newnode5->data=45;
+   
+        newnode1->next=newnode2;       
+        newnode2->next=newnode3;
+        newnode3->next=newnode4;
+        newnode4->next=newnode5;      
+        newnode5->next=NULL;
+        
+        tmp=newnode1;
+        head=newnode1;
+        
+        while(1)
+        {
+            
+            if((head->data)%2!=0)   
+                head=head->next;
+            else
+                break;
+        }
+        tmp=head;
+        
+        while(!NULL)
+        { 
+            tempnode=head->next;  
+           if((tempnode->data)%2!=0)
+            {
+                head->next=tempnode->next;
+            }
+            else
+             head=tempnode;
+            if((tempnode->next)==NULL)
+                break;
+            
+        }
+        
+        printf("\nThe modified linked list is :");                  
+        while(!NULL)
+        { 
+           printf("%d ", tmp->data); 
+            tmp=tmp->next;
+            if(tmp->next==NULL)
+            {
+                printf("%d ", tmp->data); 
+                break;
+            }
+        }
+}
