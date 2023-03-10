@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node {
+    char data[50];
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+void insert(char value[]) {
+    struct node *new_node = (struct node *) malloc(sizeof(struct node));
+    strcpy(new_node->data, value);
+    new_node->next = NULL;
+
+    if (head == NULL) {
+        head = new_node;
+        return;
+    }
+
+    struct node *current = head;
+    while (current->next != NULL) {
+        if (strcmp(current->data, value) == 0) {
+            printf("The string '%s' already exists in the linked list.\n", value);
+            free(new_node);
+            return;
+        }
+        current = current->next;
+    }
+
+    if (strcmp(current->data, value) == 0) {
+        printf("The string '%s' already exists in the linked list.\n", value);
+        free(new_node);
+        return;
+    }
+
+    current->next = new_node;
+}
+
+void display() {
+    struct node *current = head;
+    while (current != NULL) {
+        printf("%s ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    insert("apple");
+    insert("banana");
+    insert("cherry");
+    insert("date");
+    insert("apple");
+    printf("Enter a string: ");
+    scanf("%s", input);
+    insert(input);
+
+    printf("Linked list contents: ");
+    display();
+
+    return 0;
+}
