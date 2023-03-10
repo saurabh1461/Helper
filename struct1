@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+#define MAX_STUDENTS 100
+
+struct student {
+    char name[50];
+    int id;
+    float gpa;
+};
+
+int main() {
+    struct student students[MAX_STUDENTS];
+    int n;
+
+    printf("Enter the number of students: ");
+    scanf("%d", &n);
+
+    // Prompt user to enter information for N students
+    for (int i = 0; i < n; i++) {
+        printf("Enter student #%d's name: ", i + 1);
+        scanf("%s", students[i].name);
+        printf("Enter student #%d's ID: ", i + 1);
+        scanf("%d", &students[i].id);
+        printf("Enter student #%d's GPA: ", i + 1);
+        scanf("%f", &students[i].gpa);
+    }
+
+    // Find the student with the highest GPA
+    int max_idx = 0;
+    for (int i = 1; i < n; i++) {
+        if (students[i].gpa > students[max_idx].gpa) {
+            max_idx = i;
+        }
+    }
+
+    // Print the student with the highest GPA
+    printf("\nStudent with highest GPA:\n");
+    printf("Name: %s\n", students[max_idx].name);
+    printf("ID: %d\n", students[max_idx].id);
+    printf("GPA: %.2f\n", students[max_idx].gpa);
+
+    return 0;
+}
