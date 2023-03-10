@@ -2,117 +2,96 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Book {
-    char title[100];
-    char author[100];
-    char isbn[20];
+struct book {
+    char title[50];
+    char author[50];
+    char isbn[14];
+    struct book *next;
 };
 
-struct Node {
-    struct Book book;
-    struct Node* next;
-};
-
-void addBook(struct Node** head_ref, struct Book new_book) {
-    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
-    new_node->book = new_book;
-    new_node->next = (*head_ref);
-    (*head_ref) = new_node;
-}
-
-void printBooks(struct Node* node) {
-    while (node != NULL) {
-        printf("Title: %s\n", node->book.title);
-        printf("Author: %s\n", node->book.author);
-        printf("ISBN: %s\n", node->book.isbn);
-        printf("\n");
-        node = node->next;
+void print_books(struct book *head) {
+    printf("Title\tAuthor\tISBN\n");
+    while (head != NULL) {
+        printf("%s\t%s\t%s\n", head->title, head->author, head->isbn);
+        head = head->next;
     }
 }
 
-void searchBooks(struct Node* node) {
-    int choice;
-    char search_term[100];
-    printf("Enter search term: ");
-    scanf("%s", search_term);
-    printf("Search by:\n");
-    printf("1. Title\n");
-    printf("2. Author\n");
-    printf("3. ISBN\n");
-    printf("Enter choice: ");
-    scanf("%d", &choice);
-    printf("\nResults:\n");
-    while (node != NULL) {
-        switch(choice) {
-            case 1:
-                if (strcmp(node->book.title, search_term) == 0) {
-                    printf("Title: %s\n", node->book.title);
-                    printf("Author: %s\n", node->book.author);
-                    printf("ISBN: %s\n", node->book.isbn);
-                    printf("\n");
+struct book *search_books(struct book *head, char *query, int option) {
+    struct book *result = NULL;
+    while (head != NULL) {
+        if (option == 1 && strcmp(head->title, query) == 0) {
+            if (result == NULL) {
+                result = head;
+            } else {
+                struct book *temp = result;
+                while (temp->next != NULL) {
+                    temp = temp->next;
                 }
-                break;
-            case 2:
-                if (strcmp(node->book.author, search_term) == 0) {
-                    printf("Title: %s\n", node->book.title);
-                    printf("Author: %s\n", node->book.author);
-                    printf("ISBN: %s\n", node->book.isbn);
-                    printf("\n");
+                temp->next = head;
+            }
+        } else if (option == 2 && strcmp(head->author, query) == 0) {
+            if (result == NULL) {
+                result = head;
+            } else {
+                struct book *temp = result;
+                while (temp->next != NULL) {
+                    temp = temp->next;
                 }
-                break;
-            case 3:
-                if (strcmp(node->book.isbn, search_term) == 0) {
-                    printf("Title: %s\n", node->book.title);
-                    printf("Author: %s\n", node->book.author);
-                    printf("ISBN: %s\n", node->book.isbn);
-                    printf("\n");
+                temp->next = head;
+            }
+        } else if (option == 3 && strcmp(head->isbn, query) == 0) {
+            if (result == NULL) {
+                result = head;
+            } else {
+                struct book *temp = result;
+                while (temp->next != NULL) {
+                    temp = temp->next;
                 }
-                break;
-            default:
-                printf("Invalid choice.\n");
-                break;
+                temp->next = head;
+            }
         }
-        node = node->next;
+        head = head->next;
     }
+    return result;
 }
 
 int main() {
-    struct Node* head = NULL;
-    int choice;
-    do {
-        printf("Menu:\n");
-        printf("1. Add book\n");
-        printf("2. Search books\n");
-        printf("3. Print all books\n");
-        printf("4. Exit\n");
-        printf("Enter choice: ");
-        scanf("%d", &choice);
-        switch(choice) {
-            case 1: {
-                struct Book new_book;
-                printf("Enter book title: ");
-                scanf("%s", new_book.title);
-                printf("Enter book author: ");
-                scanf("%s", new_book.author);
-                printf("Enter book ISBN: ");
-                scanf("%s", new_book.isbn);
-                addBook(&head, new_book);
-                printf("Book added successfully.\n");
-                break;
-            }
-            case 2:
-                searchBooks(head);
-                break;
-            case 3:
-                printf("\nAll Books:\n");
-                printBooks(head);
-                break;
-            case 4:
-                printf("Exiting program...\n");
-                exit(0);
-            default:
-            printf("Invalid choice. Please try again.\n");
-            break;
-          }
-          return 0;
+    struct book books[50];
+    int n = 0;
+    char choice = 'y';
+    while (choice == 'y' || choice == 'Y') {
+        printf("Enter details for book %d:\n", n+1);
+        printf("Title: ");
+        scanf("%s", books[n].title);
+        printf("Author: ");
+        scanf("%s", books[n].author);
+        printf("ISBN: ");
+        scanf("%s", books[n].isbn);
+        books[n].next = NULL;
+        n++;
+        printf("Do you want to enter details for another book? (Y/N) ");
+        scanf(" %c", &choice);
     }
+    printf("You have entered the following books:\n");
+    print_books(books);
+
+    printf("\nSearch Books:\n");
+    printf("1. By Title\n");
+    printf("2. By Author\n");
+    printf("3. By ISBN\n");
+    printf("Enter your choice: ");
+    int option;
+    scanf("%d", &option);
+    printf("Enter search query: ");
+    char query[50];
+    scanf("%s", query);
+    struct book *result = search_books(books, query, option);
+    if (result == NULL) {
+        printf("No books found.\n");
+    } else {
+        printf("Books found:\n");
+        print_books(result);
+    }
+    return 0;
+}
