@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+void remove_odd(struct node** head_ref)
+{
+    struct node* current = *head_ref;
+    struct node* prev = NULL;
+    while (current != NULL) {
+        if (current->data % 2 != 0) {
+            if (prev == NULL)
+                *head_ref = current->next;
+            else
+                prev->next = current->next;
+            free(current);
+            current = (prev == NULL) ? *head_ref : prev->next;
+        }
+        else {
+            prev = current;
+            current = current->next;
+        }
+    }
+}
+
+void print_list(struct node* node)
+{
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+// Driver program
+int main()
+{
+    struct node* head = NULL;
+    int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    for (int i = 0; i < 10; i++) {
+        struct node* new_node = (struct node*)malloc(sizeof(struct node));
+        new_node->data = values[i];
+        new_node->next = head;
+        head = new_node;
+    }
+    printf("Original list: ");
+    print_list(head);
+    remove_odd(&head);
+    printf("List after removing odd integers: ");
+    print_list(head);
+    return 0;
+}
