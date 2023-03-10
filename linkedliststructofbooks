@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Book {
+    char title[100];
+    char author[100];
+    char isbn[20];
+};
+
+struct Node {
+    struct Book book;
+    struct Node* next;
+};
+
+void addBook(struct Node** head_ref, struct Book new_book) {
+    struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+    new_node->book = new_book;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+void printBooks(struct Node* node) {
+    while (node != NULL) {
+        printf("Title: %s\n", node->book.title);
+        printf("Author: %s\n", node->book.author);
+        printf("ISBN: %s\n", node->book.isbn);
+        printf("\n");
+        node = node->next;
+    }
+}
+
+void searchBooks(struct Node* node) {
+    int choice;
+    char search_term[100];
+    printf("Enter search term: ");
+    scanf("%s", search_term);
+    printf("Search by:\n");
+    printf("1. Title\n");
+    printf("2. Author\n");
+    printf("3. ISBN\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+    printf("\nResults:\n");
+    while (node != NULL) {
+        switch(choice) {
+            case 1:
+                if (strcmp(node->book.title, search_term) == 0) {
+                    printf("Title: %s\n", node->book.title);
+                    printf("Author: %s\n", node->book.author);
+                    printf("ISBN: %s\n", node->book.isbn);
+                    printf("\n");
+                }
+                break;
+            case 2:
+                if (strcmp(node->book.author, search_term) == 0) {
+                    printf("Title: %s\n", node->book.title);
+                    printf("Author: %s\n", node->book.author);
+                    printf("ISBN: %s\n", node->book.isbn);
+                    printf("\n");
+                }
+                break;
+            case 3:
+                if (strcmp(node->book.isbn, search_term) == 0) {
+                    printf("Title: %s\n", node->book.title);
+                    printf("Author: %s\n", node->book.author);
+                    printf("ISBN: %s\n", node->book.isbn);
+                    printf("\n");
+                }
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+        node = node->next;
+    }
+}
+
+int main() {
+    struct Node* head = NULL;
+    int choice;
+    do {
+        printf("Menu:\n");
+        printf("1. Add book\n");
+        printf("2. Search books\n");
+        printf("3. Print all books\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        switch(choice) {
+            case 1: {
+                struct Book new_book;
+                printf("Enter book title: ");
+                scanf("%s", new_book.title);
+                printf("Enter book author: ");
+                scanf("%s", new_book.author);
+                printf("Enter book ISBN: ");
+                scanf("%s", new_book.isbn);
+                addBook(&head, new_book);
+                printf("Book added successfully.\n");
+                break;
+            }
+            case 2:
+                searchBooks(head);
+                break;
+            case 3:
+                printf("\nAll Books:\n");
+                printBooks(head);
+                break;
+            case 4:
+                printf("Exiting program...\n");
+                exit(0);
+            default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+          }
+          return 0;
+    }
