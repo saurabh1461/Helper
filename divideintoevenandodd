@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a node structure for the linked list
+struct node {
+    int data;
+    struct node* next;
+};
+
+// Function to split the linked list into two smaller linked lists of even and odd integers
+void split_list(struct node* head, struct node** even_head_ref, struct node** odd_head_ref)
+{
+    struct node* even_tail = NULL;
+    struct node* odd_tail = NULL;
+
+    // Traverse the original list and append each node to the even or odd list
+    while (head != NULL) {
+        if (head->data % 2 == 0) {
+            if (*even_head_ref == NULL)
+                *even_head_ref = head;
+            else
+                even_tail->next = head;
+            even_tail = head;
+        }
+        else {
+            if (*odd_head_ref == NULL)
+                *odd_head_ref = head;
+            else
+                odd_tail->next = head;
+            odd_tail = head;
+        }
+        head = head->next;
+    }
+
+    // Terminate the even and odd lists
+    if (even_tail != NULL)
+        even_tail->next = NULL;
+    if (odd_tail != NULL)
+        odd_tail->next = NULL;
+}
+
+// Function to print the contents of the linked list
+void print_list(struct node* node)
+{
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+// Driver program
+int main()
+{
+    struct node* head = NULL;
+    int values[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    // Create the linked list from the array of values
+    for (int i = 0; i < 10; i++) {
+        struct node* new_node = (struct node*)malloc(sizeof(struct node));
+        new_node->data = values[i];
+        new_node->next = head;
+        head = new_node;
+    }
+
+    // Split the linked list into even and odd lists
+    struct node* even_head = NULL;
+    struct node* odd_head = NULL;
+    split_list(head, &even_head, &odd_head);
+
+    // Print the contents of the even and odd lists
+    printf("Even list: ");
+    print_list(even_head);
+    printf("Odd list: ");
+    print_list(odd_head);
+
+    return 0;
+}
