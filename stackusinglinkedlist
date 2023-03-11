@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure of a Stack node
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Define the structure of a Stack
+typedef struct Stack {
+    Node* top;
+} Stack;
+
+// Create a new node with given data and return its address
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Push a new element onto the top of the stack
+void push(Stack* stack, int data) {
+    Node* newNode = createNode(data);
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
+
+// Remove and return the top element from the stack
+int pop(Stack* stack) {
+    if (stack->top == NULL) {
+        printf("Stack underflow!\n");
+        return -1;
+    }
+    Node* temp = stack->top;
+    int data = temp->data;
+    stack->top = stack->top->next;
+    free(temp);
+    return data;
+}
+
+// Return the top element from the stack without removing it
+int peek(Stack* stack) {
+    if (stack->top == NULL) {
+        printf("Stack is empty!\n");
+        return -1;
+    }
+    return stack->top->data;
+}
+
+// Print the elements of the stack from top to bottom
+void display(Stack* stack) {
+    if (stack->top == NULL) {
+        printf("Stack is empty!\n");
+        return;
+    }
+    printf("Stack: ");
+    Node* temp = stack->top;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Test the Stack implementation
+int main() {
+    Stack stack = { NULL };
+    push(&stack, 1);
+    push(&stack, 2);
+    push(&stack, 3);
+    push(&stack, 4);
+    display(&stack);
+    printf("Top element: %d\n", peek(&stack));
+    printf("Popped element: %d\n", pop(&stack));
+    printf("Popped element: %d\n", pop(&stack));
+    display(&stack);
+    return 0;
+}
