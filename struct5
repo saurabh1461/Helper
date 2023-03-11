@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+struct Rectangle {
+    float width;
+    float height;
+    float area;
+    float perimeter;
+};
+
+int main() {
+    int n;
+    printf("Enter the number of rectangles: ");
+    scanf("%d", &n);
+
+    struct Rectangle rectangles[n];
+    struct Rectangle largestArea, largestPerimeter;
+    largestArea.area = -1; // Initialize with smallest possible value
+    largestPerimeter.perimeter = -1; // Initialize with smallest possible value
+
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter the width and height of rectangle %d: ", i+1);
+        scanf("%f %f", &rectangles[i].width, &rectangles[i].height);
+
+        // Calculate area and perimeter
+        rectangles[i].area = rectangles[i].width * rectangles[i].height;
+        rectangles[i].perimeter = 2 * (rectangles[i].width + rectangles[i].height);
+
+        // Check for rectangle with largest area
+        if (rectangles[i].area > largestArea.area) {
+            largestArea = rectangles[i];
+        }
+
+        // Check for rectangle with largest perimeter
+        if (rectangles[i].perimeter > largestPerimeter.perimeter) {
+            largestPerimeter = rectangles[i];
+        }
+    }
+
+    printf("\nRectangle details:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Rectangle %d: Width=%.2f Height=%.2f Area=%.2f Perimeter=%.2f\n", i+1, rectangles[i].width, rectangles[i].height, rectangles[i].area, rectangles[i].perimeter);
+    }
+
+    printf("\nRectangle with largest area: Width=%.2f Height=%.2f Area=%.2f\n", largestArea.width, largestArea.height, largestArea.area);
+
+    printf("Rectangle with largest perimeter: Width=%.2f Height=%.2f Perimeter=%.2f\n", largestPerimeter.width, largestPerimeter.height, largestPerimeter.perimeter);
+
+    return 0;
+}
