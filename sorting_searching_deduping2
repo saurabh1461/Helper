@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct Point {
+    int x, y;
+};
+
+double distanceFromOrigin(struct Point p) {
+    return sqrt(p.x*p.x + p.y*p.y);
+}
+
+void bubbleSort(struct Point arr[], int n) {
+    int i, j;
+    struct Point temp;
+    for (i = 0; i < n-1; i++) {
+        for (j = 0; j < n-i-1; j++) {
+            double dist1 = distanceFromOrigin(arr[j]);
+            double dist2 = distanceFromOrigin(arr[j+1]);
+            if (dist1 > dist2 || (dist1 == dist2 && arr[j].x > arr[j+1].x)) {
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    struct Point arr[] = {{-1, 2}, {3, 4}, {1, -2}, {-5, 2}, {0, 1}, {-3, -4}};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int i;
+    
+    printf("Original array:\n");
+    for (i = 0; i < n; i++) {
+        printf("(%d, %d) ", arr[i].x, arr[i].y);
+    }
+    
+    bubbleSort(arr, n);
+    
+    printf("\nSorted array:\n");
+    for (i = 0; i < n; i++) {
+        printf("(%d, %d) ", arr[i].x, arr[i].y);
+    }
+    
+    return 0;
+}
