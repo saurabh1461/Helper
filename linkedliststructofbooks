@@ -1,97 +1,123 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#pragma warning(disable :4996)
 
-struct book {
+typedef struct Book {
     char title[50];
     char author[50];
-    char isbn[14];
-    struct book *next;
-};
+    char isbn[20];
+    struct Book *next;
+} Book;
 
-void print_books(struct book *head) {
-    printf("Title\tAuthor\tISBN\n");
-    while (head != NULL) {
-        printf("%s\t%s\t%s\n", head->title, head->author, head->isbn);
-        head = head->next;
-    }
+Book *add_book(Book *head) {
+    Book *new_book = (Book *) malloc(sizeof(Book));
+    printf("Enter the title of the book: ");
+    scanf("%s", new_book->title);
+    printf("Enter the author of the book: ");
+    scanf("%s", new_book->author);
+    printf("Enter the ISBN number of the book: ");
+    scanf("%s", new_book->isbn);
+    new_book->next = head;
+    head = new_book;
+    return head;
 }
 
-struct book *search_books(struct book *head, char *query, int option) {
-    struct book *result = NULL;
+void search_by_title(Book *head, char *title) {
+    int count = 0;
     while (head != NULL) {
-        if (option == 1 && strcmp(head->title, query) == 0) {
-            if (result == NULL) {
-                result = head;
-            } else {
-                struct book *temp = result;
-                while (temp->next != NULL) {
-                    temp = temp->next;
-                }
-                temp->next = head;
-            }
-        } else if (option == 2 && strcmp(head->author, query) == 0) {
-            if (result == NULL) {
-                result = head;
-            } else {
-                struct book *temp = result;
-                while (temp->next != NULL) {
-                    temp = temp->next;
-                }
-                temp->next = head;
-            }
-        } else if (option == 3 && strcmp(head->isbn, query) == 0) {
-            if (result == NULL) {
-                result = head;
-            } else {
-                struct book *temp = result;
-                while (temp->next != NULL) {
-                    temp = temp->next;
-                }
-                temp->next = head;
-            }
+        if (strcmp(head->title, title) == 0) {
+            printf("book with the given Title found.\n");
+            printf("Title: %s\n", head->title);
+            printf("Author: %s\n", head->author);
+            printf("ISBN: %s\n", head->isbn);
+            printf("\n");
+            count++;
         }
         head = head->next;
     }
-    return result;
+    if (count == 0) {
+        printf("No books with the given title found.\n\n");
+    }
+}
+
+void search_by_author(Book *head, char *author) {
+    int count = 0;
+    while (head != NULL) {
+        if (strcmp(head->author, author) == 0) {
+            printf("book with the given author found.\n");
+            printf("Title: %s\n", head->title);
+            printf("Author: %s\n", head->author);
+            printf("ISBN: %s\n", head->isbn);
+            printf("\n");
+            count++;
+        }
+        head = head->next;
+    }
+    if (count == 0) {
+        printf("No books by the given author found.\n\n");
+    }
+}
+
+void search_by_isbn(Book *head, char *isbn) {
+    int count = 0;
+    while (head != NULL) {
+        if (strcmp(head->isbn, isbn) == 0) {
+            printf("book with the given ISBN found.\n");
+            printf("Title: %s\n", head->title);
+            printf("Author: %s\n", head->author);
+            printf("ISBN: %s\n", head->isbn);
+            printf("\n");
+            count++;
+        }
+        head = head->next;
+    }
+    if (count == 0) {
+        printf("No books with the given ISBN found.\n\n");
+    }
 }
 
 int main() {
-    struct book books[50];
-    int n = 0;
-    char choice = 'y';
-    while (choice == 'y' || choice == 'Y') {
-        printf("Enter details for book %d:\n", n+1);
-        printf("Title: ");
-        scanf("%s", books[n].title);
-        printf("Author: ");
-        scanf("%s", books[n].author);
-        printf("ISBN: ");
-        scanf("%s", books[n].isbn);
-        books[n].next = NULL;
-        n++;
-        printf("Do you want to enter details for another book? (Y/N) ");
-        scanf(" %c", &choice);
+    Book *head = NULL;
+    int num_books, i, choice;
+    char title[50], author[50], isbn[20];
+    printf("Enter the number of books: ");
+    scanf("%d", &num_books);
+    for (i = 0; i < num_books; i++) {
+        printf("Book %d:\n", i+1);
+        head = add_book(head);
+        printf("\n");
     }
-    printf("You have entered the following books:\n");
-    print_books(books);
-
-    printf("\nSearch Books:\n");
-    printf("1. By Title\n");
-    printf("2. By Author\n");
-    printf("3. By ISBN\n");
-    printf("Enter your choice: ");
-    int option;
-    scanf("%d", &option);
-    printf("Enter search query: ");
-    char query[50];
-    scanf("%s", query);
-    struct book *result = search_books(books, query, option);
-    if (result == NULL) {
-        printf("No books found.\n");
-    } else {
-        printf("Books found:\n");
-        print_books(result);
+    while (1) {
+    printf("Enter the number of the search option:\n");
+    printf("1. Search by title\n");
+    printf("2. Search by author\n");
+    printf("3. Search by ISBN\n");
+    printf("4. Exit\n");
+    printf("Choice: ");
+    scanf("%d", &choice);
+    switch (choice) {
+        case 1:
+            printf("Enter the title to search for: ");
+            scanf("%s", title);
+            search_by_title(head, title);
+            break;
+        case 2:
+            printf("Enter the author to search for: ");
+            scanf("%s", author);
+            search_by_author(head, author);
+            break;
+        case 3:
+            printf("Enter the ISBN to search for: ");
+            scanf("%s", isbn);
+            search_by_isbn(head, isbn);
+            break;
+        case 4:
+            printf("Exiting program...\n");
+            exit(0);
+        default:
+            printf("Invalid choice. Please try again.\n");
     }
-    return 0;
+}
+return 0;
 }
