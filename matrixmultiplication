@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning(diable:4996)
+
+int main() {
+    int *a, *b, *c;
+    int rows_a, cols_a, rows_b, cols_b, i, j, k;
+
+    // Get the dimensions of the matrices
+    printf("Enter the dimensions of matrix A (rows, columns): ");
+    scanf("%d %d", &rows_a, &cols_a);
+    printf("Enter the dimensions of matrix B (rows, columns): ");
+    scanf("%d %d", &rows_b, &cols_b);
+
+    // Check if the matrices can be multiplied
+    if (cols_a != rows_b) {
+        printf("Error: Matrix dimensions are incompatible for multiplication\n");
+        return 1;
+    }
+
+    // Allocate memory for the matrices
+    a = (int *) malloc(rows_a * cols_a * sizeof(int));
+    b = (int *) malloc(rows_b * cols_b * sizeof(int));
+    c = (int *) malloc(rows_a * cols_b * sizeof(int));
+
+    // Initialize matrix A
+    printf("Enter matrix A:\n");
+    for (i = 0; i < rows_a; i++) {
+        for (j = 0; j < cols_a; j++) {
+            scanf("%d", &a[i * cols_a + j]);
+        }
+    }
+
+    // Initialize matrix B
+    printf("Enter matrix B:\n");
+    for (i = 0; i < rows_b; i++) {
+        for (j = 0; j < cols_b; j++) {
+            scanf("%d", &b[i * cols_b + j]);
+        }
+    }
+
+    // Perform matrix multiplication
+    for (i = 0; i < rows_a; i++) {
+        for (j = 0; j < cols_b; j++) {
+            c[i * cols_b + j] = 0;
+            for (k = 0; k < cols_a; k++) {
+                c[i * cols_b + j] += a[i * cols_a + k] * b[k * cols_b + j];
+            }
+        }
+    }
+
+    // Print the result
+    printf("Matrix multiplication result:\n");
+    for (i = 0; i < rows_a; i++) {
+        for (j = 0; j < cols_b; j++) {
+            printf("%d ", c[i * cols_b + j]);
+        }
+        printf("\n");
+    }
+
+    // Free memory
+    free(a);
+    free(b);
+    free(c);
+
+    return 0;
+}
