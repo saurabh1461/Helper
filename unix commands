@@ -146,6 +146,24 @@ The tar command is a versatile tool that can be used for many different purposes
 
 
 
+linking in unix : 
+n Unix-like operating systems, "linking" is the process of creating a new name (i.e., a link) for a file or directory. There are two types of links in Unix: "hard links" 
+and "symbolic links" (also called "soft links" or "symlinks").
+
+A "hard link" is a new name for an existing file or directory. When you create a hard link, both the original file/directory and the new link have the 
+same inode number, which means that they both refer to the same physical data on the disk. If you delete the original file/directory, 
+the hard link will still exist and refer to the data on the disk. Hard links can only be created for files and directories that are located on the same file system.
+
+A "symbolic link" is a special type of file that acts as a pointer to another file or directory. When you create a symbolic link, it contains the path to the 
+original file/directory, rather than a reference to the inode number. If you delete the original file/directory, the symbolic link will still exist, but it
+will be broken (i.e., it will no longer point to a valid file/directory). Symbolic links can be created across file systems.
+
+Linking is a useful feature in Unix because it allows you to create multiple names for a file or directory without duplicating the actual data on the disk. 
+This can be especially helpful when you want to organize files and directories in a logical manner, or when you want to create shortcuts to frequently used files
+or directories.
+
+
+
 
 
 
