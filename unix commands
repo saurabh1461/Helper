@@ -1,0 +1,160 @@
+vi editor:
+It is a powerful and efficient editor that allows users to create, edit, and manipulate text files.
+To open a file using vi, type "vi" followed by the name of the file in the terminal. For example, to open a file named "myfile.txt", type vi myfile.txt
+
+Once you have opened a file in vi, you can switch between command and insert modes by pressing the "Esc" key to enter command mode, and 
+then pressing the "i" key to enter insert mode.
+
+Some common vi commands include:
+
+i: Enter insert mode at the cursor
+x: Delete the character under the cursor
+dd: Delete the current line
+yy: Yank (copy) the current line
+p: Paste the most recently yanked or deleted text after the cursor
+/pattern: Search forward for "pattern"
+:w: Save the file
+:q: Quit vi
+
+ls command :
+
+The ls command is used in Unix-like operating systems to list the files and directories in a directory. It has a variety of options, which can be specified as flags.
+-l: long listing format, which displays additional information about each file, such as the file size, permissions, and owner
+-a: show all files, including hidden files (which start with a dot)
+-h: display file sizes in human-readable format (e.g., "1K" instead of "1024")
+-t: sort files by modification time (newest first)
+
+when you run the ls -ltr command, you will see a list of files and directories in the current directory, sorted by modification time with the
+newest files appearing at the bottom of the list. The output will be displayed in a long listing format, with detailed information about each file, 
+such as the file permissions, owner, group, size, and modification date and time.
+
+rm command :
+The rm command is used in Unix-like operating systems to remove (delete) files or directories. It has several different flags (options) that can be used to 
+control its behavior:
+-r: remove directories and their contents recursively (i.e., delete all files and subdirectories within the specified directory)
+-f: force removal of files without prompting for confirmation, even if the file is write-protected
+-i: interactive mode, which prompts the user to confirm before deleting each file
+-v: verbose mode, which displays a message for each file that is deleted
+-d: remove only empty directories
+-R: same as -r
+--: indicates the end of command options, allowing removal of files with names beginning with a hyphen
+
+To delete a directory and all of its contents, you can use the rm -r command followed by the name of the directory. Be careful when using this command, 
+as it can permanently delete all files within the specified directory.
+To remove a file without prompting for confirmation, you can use the rm -f command followed by the name of the file.
+
+cp/mv command :
+The cp and mv commands are used in Unix-like operating systems to copy and move files and directories.
+The cp command is used to copy files from one location to another.
+cp syntax : cp source_file destination
+cp for multiple files : cp source_file1 source_file2 destination_directory
+
+The mv command is used to move files and directories from one location to another. Its basic syntax is:
+mv source_file destination
+ex : mv old_filename new_filename
+
+Both cp and mv have several optional flags (options) that can be used to control their behavior. Some common flags include:
+
+-r: copy or move directories and their contents recursively
+-i: interactive mode, which prompts the user to confirm before overwriting an existing file or directory
+-v: verbose mode, which displays a message for each file that is copied or moved
+-f: force mode, which overwrites existing files without prompting for confirmation (use with caution!)
+
+For example, to copy a directory and its contents to a new location, you can use the cp -r command followed by 
+the name of the source directory and the destination directory: cp -r sourcedir destdir
+
+To move a file to a new location and rename it at the same time, you can use the mv command followed by the old and new file names:
+mv old_filename new_directory/new_filename
+
+
+tee command :
+The tee command is a Unix utility used to read the standard input (stdin) and write it to both standard output (stdout) and one or more specified files. 
+The basic syntax of the tee command is as follows: command | tee file1 file2 file3 ...
+
+When you run the tee command, it reads the output of command from the standard input and writes it to both the standard output and the specified files. 
+This means that you can view the output on the screen as well as save it to a file for later use.
+
+ex : ls -l | tee file1.txt file2.txt
+
+The tee command is useful when you want to save the output of a command to a file, but also want to see the output on the screen in real-time.
+It's a versatile tool that can be used in many different situations, such as when you're debugging a program or logging output from a script.
+
+cat command : 
+The cat command is a Unix utility used to concatenate and display the contents of one or more files to the standard output (usually the terminal screen). The name cat stands for "concatenate". 
+The basic syntax of the cat command is as follows:cat file1 file2 file3 ...
+ ex: cat file1.txt file2.txt
+If you want to save the output of the cat command to a file instead of displaying it on the screen, you can use shell redirection to 
+redirect the standard output to a file. For example, to save the output of the cat command to a new file named combined.txt, you can run:
+cat file1.txt file2.txt > combined.txt
+
+
+
+
+grep command :
+The grep command is a Unix utility used to search for a specified pattern or regular expression in one or more files.
+The name "grep" stands for "global regular expression print". The basic syntax of the grep command is as follows: grep [options] pattern [file ...]
+
+In this syntax, pattern is the regular expression or string you want to search for, and file is the name of the file or files you want to search. 
+You can specify one or more files to search. If no file is specified, grep reads from the standard input (stdin).
+
+Here are some common options that can be used with the grep command:
+
+-i: ignore case distinctions during the search
+-v: select non-matching lines
+-n: print the line number with the output lines
+-l: print only the names of files that contain matches, not the matches themselves
+-r: search recursively through directories
+
+Here are some common options that can be used with the grep command:
+
+-i: ignore case distinctions during the search
+-v: select non-matching lines
+-n: print the line number with the output lines
+-l: print only the names of files that contain matches, not the matches themselves
+-r: search recursively through directories
+
+grep "hello" file.txt
+
+In this example, the grep command searches for the word "hello" in the file named file.txt. If the word is found, grep displays 
+the line that contains the word on the screen.
+
+The grep command is a powerful tool for searching for specific patterns or expressions in text files. It can be used in many different situations,
+such as finding all occurrences of a function call in a program source code, or searching for specific log entries in a log file.
+
+tar command :
+ The tar command is a Unix utility used to create and manipulate archive files. The name "tar" stands for "tape archive". 
+ The basic syntax of the tar command is as follows:
+tar [options] [archive-filename] [file/directory ...]
+In this syntax, archive-filename is the name of the archive file you want to create or manipulate, and file/directory is the name of the file or directory you want to add to or extract from the archive file. 
+You can specify multiple files and directories to include in the archive.
+Here are some common options that can be used with the tar command:
+
+-c: create a new archive file
+-x: extract files from an archive file
+-v: verbose output (list the files being processed)
+-f: specify the filename of the archive file
+-z: compress the archive file using gzip
+-j: compress the archive file using bzip2
+-r: append files to the end of an existing archive file
+-t: list the contents of an archive file
+
+ex : tar -cvf archive.tar file1.txt file2.txt directory/
+
+example of extraction : tar -xvf archive.tar
+
+The tar command is a versatile tool that can be used for many different purposes, such as creating backups, distributing files, and archiving large amounts of data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
